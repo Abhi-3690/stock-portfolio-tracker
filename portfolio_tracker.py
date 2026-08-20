@@ -1,3 +1,4 @@
+import csv
 # Stock Portfolio Tracker
 
 # Hardcoded stock prices
@@ -13,6 +14,21 @@ stock_prices = {
 def calculate_investment(stock, quantity):
     """Calculate investment for a stock."""
     return stock_prices[stock] * quantity
+
+def save_to_csv(portfolio, total_investment):
+    """Save portfolio details to a CSV file."""
+    with open("portfolio.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+
+        writer.writerow(["Stock", "Quantity", "Price", "Investment"])
+
+        for stock, quantity, price, investment in portfolio:
+            writer.writerow([stock, quantity, price, investment])
+
+        writer.writerow([])
+        writer.writerow(["Total Investment", "", "", total_investment])
+
+    print("\n💾 Portfolio saved to portfolio.csv")
 
 
 def main():
@@ -77,6 +93,8 @@ def main():
 
         print("-" * 45)
         print(f"Total Investment: ${total_investment:,.2f}")
+
+        save_to_csv(portfolio, total_investment)
 
     print("\nThank you for using Stock Portfolio Tracker!")
 
